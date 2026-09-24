@@ -1,0 +1,28 @@
+import torch
+from torch.utils.data import Dataset, DataLoader
+
+
+class XrayDataset(Dataset):
+
+    def __init__(self):
+        # 模拟 8 张 512×512 的灰度 X 光
+        self.images = torch.randn(8, 1, 512, 512)
+
+    def __len__(self):
+        return len(self.images)
+
+    def __getitem__(self, index):
+        return self.images[index]
+
+
+dataset = XrayDataset()
+
+loader = DataLoader(
+    dataset,
+    batch_size=2,
+    shuffle=True,
+    num_workers=0
+)
+
+for batch in loader:
+    print("batch shape:", batch.shape)

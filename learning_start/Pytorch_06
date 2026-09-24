@@ -1,0 +1,52 @@
+import torch
+import torch.nn as nn
+
+# 模拟 2 张 512×512 的灰度 X-ray
+x = torch.randn(2, 1, 512, 512)
+
+print("输入:", x.shape)
+
+# 卷积
+conv = nn.Conv2d(
+    in_channels=1,
+    out_channels=16,
+    kernel_size=3,
+    padding=1
+)
+
+x = conv(x)
+print("Conv2d:", x.shape)
+
+# 激活
+relu = nn.ReLU()
+
+x = relu(x)
+print("ReLU:", x.shape)
+
+# 下采样
+pool = nn.MaxPool2d(2)
+
+x = pool(x)
+print("MaxPool2d:", x.shape)
+
+# 再做一次卷积
+conv2 = nn.Conv2d(
+    in_channels=16,
+    out_channels=32,
+    kernel_size=3,
+    padding=1
+)
+
+x = conv2(x)
+print("第二次 Conv2d:", x.shape)
+
+# 上采样
+up = nn.ConvTranspose2d(
+    in_channels=32,
+    out_channels=16,
+    kernel_size=2,
+    stride=2
+)
+
+x = up(x)
+print("ConvTranspose2d:", x.shape)

@@ -1,0 +1,16 @@
+import torch
+
+# 一张 512×512 的灰度 X 光图
+x = torch.randn(512, 512)
+
+print("原始:", x.shape)
+
+# 增加 Channel
+x = x.unsqueeze(0)
+
+print("增加 Channel:", x.shape)
+
+# 增加 Batch
+x = x.unsqueeze(0)
+
+print("增加 Batch:", x.shape)

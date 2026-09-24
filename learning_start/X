@@ -1,0 +1,45 @@
+import numpy as np
+from PIL import Image
+import matplotlib.pyplot as plt
+
+# 1. 读图 → 数组
+img = np.array(
+    Image.open('xray.png').convert('L')
+)
+
+# 灰度图，形状为 (H, W)
+print('原始', img.shape, img.dtype, img.min(), img.max())
+
+# 2. 看尺寸，决定是否需要 resize
+if img.shape != (512, 512):
+    img = np.array(
+        Image.open('xray.png')
+        .convert('L')
+        .resize((512, 512))
+    )  # PIL 是 (宽, 高)
+
+# 3. 归一化到 0-1
+x = img.astype(np.float32) / 255.0
+
+# 4. 造一个假掩码，练习布尔索引与 np.where
+mask = x > 0.5
+
+# 掩码区域涂白，其余保留原图
+overlay = np.where(mask, 1.0, x)
+
+# 5. 三联图：原图 / 掩码 / 叠加
+fig, ax = plt.subplots(1, 3, figsize=(12, 4))
+
+for a, im, t in zip(
+    ax,
+    [x, mask, overlay],
+    ['Original', 'Mask', 'Overlay']
+):
+    a.imshow(im, cmap='gray')
+    a.set_title(t)
+    a.axis('off')
+
+plt.tight_layout()
+plt.savefig('check.png', dpi=120)
+
+print('已保存 check.png')
