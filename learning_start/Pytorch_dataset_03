@@ -1,0 +1,25 @@
+from PIL import Image
+from torchvision import transforms
+from torch.utils.data import Dataset
+
+class XrayDataset(Dataset):
+    def __init__(self):
+        self.image_path=r"D:\VC Code\Pytorch_test\data\images\image_01.png"
+        self.mask_path=r"D:\VC Code\Pytorch_test\data\masks\mask_01.png"
+        self.transform=transforms.ToTensor()
+    def __len__(self):
+        return len(self.image_path)
+    def __getitem__(self, idx):
+        image=Image.open(self.image_path)
+        mask=Image.open(self.mask_path)
+        image=self.transform(image)
+        mask=self.transform(mask)
+        return image,mask
+dataset = XrayDataset()
+
+image, mask = dataset[0]
+
+print(image)
+print(mask)
+print(image.shape)
+print(mask.shape)

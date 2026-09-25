@@ -1,0 +1,26 @@
+from torch.utils.data import Dataset
+from PIL import Image
+from torchvision import transforms
+
+
+class MyDataset(Dataset):
+
+    def __init__(self):
+        self.image_path = r"D:\VC Code\Pytorch_test\data\images\image_01.png"
+        self.transform = transforms.ToTensor()
+
+    def __len__(self):
+        return 1
+
+    def __getitem__(self, index):
+        image = Image.open(self.image_path)
+        image = self.transform(image)
+
+        return image
+
+dataset = MyDataset()
+image = dataset[0]
+print(image)
+print(image.shape)
+print(image.min())
+print(image.max())
