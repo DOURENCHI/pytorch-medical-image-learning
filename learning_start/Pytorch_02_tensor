@@ -14,3 +14,7 @@ print("增加 Channel:", x.shape)
 x = x.unsqueeze(0)
 
 print("增加 Batch:", x.shape)
+
+x = x.squeeze(0)
+
+print("去除 Batch:", x.shape)
