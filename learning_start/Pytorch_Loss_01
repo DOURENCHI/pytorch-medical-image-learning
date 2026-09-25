@@ -1,0 +1,17 @@
+import torch
+import torch.nn as nn
+
+
+criterion = nn.BCEWithLogitsLoss()
+
+output = torch.randn(2, 1, 256, 256)
+
+mask = torch.randint(
+    0,
+    2,
+    (2, 1, 256, 256)
+).float()
+
+loss = criterion(output, mask)
+
+print("loss:", loss.item())

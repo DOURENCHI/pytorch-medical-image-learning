@@ -1,0 +1,41 @@
+import torch
+import torch.nn as nn
+
+
+model = nn.Linear(1, 1)
+
+criterion = nn.MSELoss()
+
+optimizer = torch.optim.Adam(
+    model.parameters(),
+    lr=0.01
+)
+
+x = torch.tensor([[2.0]])
+y = torch.tensor([[5.0]])
+
+
+for epoch in range(100):
+
+    # 1. 前向传播
+    output = model(x)
+
+    # 2. 计算 Loss
+    loss = criterion(output, y)
+
+    # 3. 清空旧梯度
+    optimizer.zero_grad()
+
+    # 4. 反向传播
+    loss.backward()
+
+    # 5. 更新参数
+    optimizer.step()
+
+    if epoch % 10 == 0:
+        print(
+            "epoch:",
+            epoch,
+            "loss:",
+            loss.item()
+        )
