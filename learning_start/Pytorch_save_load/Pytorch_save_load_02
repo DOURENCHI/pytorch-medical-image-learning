@@ -1,0 +1,29 @@
+import torch
+import torch.nn as nn
+
+
+class MyModel(nn.Module):
+
+    def __init__(self):
+        super().__init__()
+
+        self.fc = nn.Linear(1, 1)
+
+    def forward(self, x):
+        return self.fc(x)
+
+
+# 1. 创建模型
+model = MyModel()
+
+# 2. 加载参数
+model.load_state_dict(
+    torch.load("model.pth")
+)
+
+# 3. 验证
+x = torch.tensor([[2.0]])
+
+output = model(x)
+
+print(output)

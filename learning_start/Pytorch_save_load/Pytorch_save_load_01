@@ -1,0 +1,45 @@
+import torch
+import torch.nn as nn
+
+class MyModel(nn.Module):
+
+    def __init__(self):
+        super().__init__()
+
+        self.fc = nn.Linear(1, 1)
+
+    def forward(self, x):
+        return self.fc(x)
+
+
+model = MyModel()
+
+criterion = nn.MSELoss()
+
+optimizer = torch.optim.Adam(
+    model.parameters(),
+    lr=0.01
+)
+
+x = torch.tensor([[2.0]])
+y = torch.tensor([[5.0]])
+
+for epoch in range(500):
+
+    output = model(x)
+
+    loss = criterion(output, y)
+
+    optimizer.zero_grad()
+
+    loss.backward()
+
+    optimizer.step()
+
+print("训练完成")
+print("output:", model(x).item())
+
+torch.save(
+    model.state_dict(),
+    "model.pth"
+)
